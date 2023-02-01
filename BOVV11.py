@@ -24,11 +24,11 @@ profile = ProfileReport(BOVV11, title='Previsão do preço de fechamento do BOVV
 profile.to_notebook_iframe()
 profile.to_file(output_file='Relatório- Previsão BOVV11.html')
 
-# Armazenar numa variável os últimos 5 dias para realizar o teste no final
+# Armazenar numa variável os últimos 253 dias para realizar o teste no final
 
 BOVV11_prever = BOVV11.tail(253)
 
-'''# Agora iremos retirar os últimos 5 do nosso dataframe, para que nosso modelo
+'''# Agora iremos retirar os últimos 253 do nosso dataframe, para que nosso modelo
 #  trabalhe depois com dados que ele não viu.''' 
 
 BOVV11.drop(BOVV11.tail(253).index, inplace=True)
