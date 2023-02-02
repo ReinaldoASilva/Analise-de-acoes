@@ -8,6 +8,8 @@
 # Objetivo
 * O objetivo desse projeto é poder fazer uma previsão de fechamento da ação. 
 
+* Utilizando o modelo de regressão linear conseguimos uma acurácia de 0.9890, o que é um excelente resultado
+
 * Utilizei a biblioteca yfinance  para importar os dados históricos com intervalo de 23 anos.
 
 * Aqui utilizamos a biblioteca pandas para poder visualizar e tratar os dados.
@@ -20,7 +22,7 @@
 
 * Criei  novas colunas com as médias móveis de 7 e 30 dias. 
 
-* Armazenei os 5 últimos dias em uma variável separada para serem utilizados como teste no final. 
+* Armazenei os 253 últimos dias em uma variável separada para serem utilizados como teste no final. 
 
 * O restante dos dados é usado para treinar o modelo de regressão linear. 
 
