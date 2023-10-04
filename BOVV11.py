@@ -3,11 +3,11 @@ import yfinance as yf
 import pandas as pd
 from pycaret.regression import *
 from pandas_profiling import ProfileReport
-
+import plotly_express as px
 # Importar os Dados
 
 dados = yf.Ticker('BOVV11.SA')
-BOVV11 = dados.history(start='2000-01-01', end='2023-01-28')
+BOVV11 = dados.history(start='2000-01-01', end='2023-02-02')
 BOVV11_df = pd.DataFrame(BOVV11)
 # Excluir colunas sem valor para essa análise
 
@@ -54,27 +54,27 @@ setup(data=BOVV11, target='Close', session_id=123, remove_perfect_collinearity =
 
 top3 = compare_models(n_select=3)
 
-lar = create_model('lar', fold=10)
+lr = create_model('lar', fold=10)
 
 
 # Modo Tuning
 
 params = {'alpha': [0.02, 0.024, 0.025, 0.026, 0.03]}
-tune_lar = tune_model(lar, n_iter=100, optimize = 'RMSE')
+tune_lr = tune_model(lr, n_iter=100, optimize = 'RMSE')
 # Plotar o nosso modelo 
 
-plot_model(lar, plot='error')
+plot_model(lr, plot='error')
 
-plot_model(tune_lar, plot='feature')
+plot_model(tune_lr, plot='feature')
 
 
 # Predict model
 
-predict_model(tune_lar)
+predict_model(tune_lr)
 
 #finalizando o modelo
 
-final_tune_lar = finalize_model(tune_lar)
+final_tune_lar = finalize_model(tune_lr)
 
 # Agora testar o modelo no dataframe que salvamos com as últimas 15 linhas
 
@@ -86,14 +86,40 @@ fig = px.line(round(prev[['Close','Label']],2),
                 title = 'Preço fechamento x preço previsto de BOVV11 ',
                 width = 1500, height = 1000)
 fig.show()
-                
-                
-                
-                
-            
 
+# Salvar o modelo para utilizar com dados novos
 
+save_model(final_tune_lar, 'Modelo final lar Pycaret')
 
+# Baixando os últimos 45 dias 
+
+BOVV11_novo = yf.download('BOVV11.SA', period='45d')
+
+#retirar coluna
+
+BOVV11_novo = BOVV11_novo.drop('Adj Close', axis=1)
+
+# resetar index
+
+BOVV11_novo.reset_index(drop=True, inplace=True)
+
+# Criar novas colunas
+
+BOVV11_novo['MM7d'] = BOVV11_novo['Close'].rolling(window=7).mean().round(2)
+BOVV11_novo['MM30d'] = BOVV11_novo['Close'].rolling(window=30).mean().round(2)               
+                
+# Dado do último dia
+
+ultimo_dia = BOVV11_novo.tail(1)
+
+# Reutilizando o modelo
+
+final_tune_lar = load_model('Modelo final lar Pycaret')
+
+# Prevendo novo dado
+
+nova_previsão = predict_model(final_tune_lar, data=ultimo_dia)
+nova_previsão.head()
 
 
 
