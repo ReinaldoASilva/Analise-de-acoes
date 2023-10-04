@@ -1,38 +1,29 @@
-# Biblioteca
+# Previsão do preço de fechamento do BOVV11
 
-* Yfinance 
-* Pandas 
-* Pycaret.regression 
-* Pandas_profiling 
+Este é um código em Python que utiliza bibliotecas como yfinance, pandas, pycaret e plotly_express para realizar a previsão do preço de fechamento do ativo BOVV11.SA. O objetivo é demonstrar um exemplo de como utilizar essas bibliotecas para realizar tarefas de análise e previsão financeira.
 
-# Objetivo
-* O objetivo desse projeto é poder fazer uma previsão de fechamento da ação. 
+## Funcionalidades do Código
 
-* Utilizando o modelo de regressão linear conseguimos uma acurácia de 0.9890, o que é um excelente resultado
+- Importação dos dados históricos do ativo BOVV11.SA utilizando a biblioteca yfinance.
+- Pré-processamento dos dados, removendo colunas desnecessárias e criando colunas com médias móveis de 7 e 30 dias.
+- Geração de um relatório de análise dos dados utilizando a biblioteca pandas_profiling.
+- Separação dos dados para treinamento e teste, mantendo os últimos 253 dias para teste posterior.
+- Utilização da biblioteca pycaret para criar e comparar modelos de regressão.
+- Tuning do modelo utilizando a função tune_model.
+- Visualização dos resultados do modelo utilizando a biblioteca plotly_express.
+- Previsão do preço de fechamento utilizando o modelo treinado.
+- Salvamento do modelo para uso futuro.
+- Download dos últimos 45 dias de dados para realizar uma nova previsão.
+- Pré-processamento dos novos dados e utilização do modelo previamente treinado para realizar a previsão.
 
-* Utilizei a biblioteca yfinance  para importar os dados históricos com intervalo de 23 anos.
+## Requisitos de Execução
 
-* Aqui utilizamos a biblioteca pandas para poder visualizar e tratar os dados.
+Certifique-se de ter as bibliotecas yfinance, pandas, pycaret, pandas_profiling e plotly_express instaladas em seu ambiente Python. Você pode instalá-las usando o gerenciador de pacotes pip. Por exemplo:
 
-* Já pycaret é usada para criar um modelo de regressão linear para prever o preço de fechamento da ação.
+```
+pip install yfinance pandas pycaret pandas-profiling plotly-express
+```
 
-* O legal da pandas_profiling é que com ela podemos criar um relatório de perfil dos dados.
+## Nota
 
-* Exclui algumas colunas sem valor para a análise. 
-
-* Criei  novas colunas com as médias móveis de 7 e 30 dias. 
-
-* Armazenei os 253 últimos dias em uma variável separada para serem utilizados como teste no final. 
-
-* O restante dos dados é usado para treinar o modelo de regressão linear. 
-
-* Ajustei o modelo utilizando o Tuning. 
-
-* Criei um Gráficos de erros para visualizar o desempenho do modelo.
-
-* Por fim, o modelo é finalizado e usado para prever o preço de fechamento. 
-
-* Plotei um  gráfico de linha comparando o preço de fechamento real e o preço previsto.
-
-Contado.
-reialvesilva@gmail.com
+Este código é apenas um exemplo básico de como utilizar algumas bibliotecas para realizar previsões financeiras. É importante ressaltar que a eficácia do modelo e a precisão das previsões podem variar dependendo dos dados utilizados e do contexto específico do mercado financeiro. É recomendado realizar uma análise mais aprofundada e ajustar o código de acordo com suas necessidades e requisitos específicos.
